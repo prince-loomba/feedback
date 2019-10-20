@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Messages</title>
+    </head>
+    <body>
+        <ul style=float:left>
+        <li><button id="personal" onclick="selected(0)">Personal</button></li>
+        <li><button id="social" onclick="selected(1)">Social</button></li>
+        <li><button id="promotional" onclick="selected(2)">Promotional</button></li>
+        <li><button id="spam" onclick="selected(3)">Spam</button></li>
+        </ul>
+        <textarea id="text"></textarea>
+        <input type="text" id="name">
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        <button onclick="send">Submit</button>
+        <script>
+            var messageType="personal";
+            function selected(idx)
+            {
+                switch(idx)
+                {
+                    case 0: messageType="personal"; break;
+                    case 1: messageType="social"; break;
+                    case 2: messageType="promotional"; break;
+                    case 3: messageType="spam"; break;
+                }
+            }
+        function send(){
+            console.log(messageType);
+            axios.post(`http://localhost:3000/messages/${messageType}`,{
+    message:document.getElementById(text).innerText,
+    nick:document.getElementById(name).innerText,
+    type:messageType
+})
+ .then(function(response){	
+console.log(response); 
+ })
+   .catch(function (error) {
+    console.log(error);
+  });
+        }
+        </script>
+    </body>
+</html>
